@@ -1,0 +1,62 @@
+﻿<Page x:Class="GenieLogicielProject.Componants.Form"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GenieLogicielProject.Componants"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="600"
+      Title="Form">
+    <Grid>
+        <ListBox VerticalAlignment="Top" 
+                      HorizontalAlignment="Left" 
+                      Width="600" Height="125">
+            <Image Source="Assets\EnsaImage.jpg" Width="590" Height="120" Stretch="Fill" StretchDirection="UpOnly"/>
+            <Image Source="Assets\FollowLinkIamge.jpg" Width="590" Height="120" Stretch="Fill" StretchDirection="UpOnly"></Image>
+        </ListBox>
+        <StackPanel Margin="70,160,15,10">
+        <StackPanel Orientation="Horizontal" Height="30">
+            <Label Content="First Name :" Width="100"/>
+            <TextBox x:Name="FirstNameBox" Width="250" 
+                     TextChanged="FirstNameBox_TextChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Height="30">
+            <Label Content="Last Name  :" Width="100"/>
+            <TextBox x:Name="LastNameBox" Width="250" 
+                     TextChanged="LastNameBox_TextChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Height="30">
+            <Label Content="CIN        :" Width="100"/>
+            <TextBox x:Name="CINBox" Width="250" 
+                     TextChanged="CINBox_TextChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Height="30">
+            <Label Content="N° Apogée  :" Width="100"/>
+            <TextBox x:Name="ApogeeBox" Width="250" 
+                     TextChanged="ApogeeBox_TextChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Height="30">
+            <Label Content="Email      :" Width="100"/>
+            <TextBox x:Name="EmailBox" Width="250" 
+                     TextChanged="EmailBox_TextChanged"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Height="30">
+            <Label Content="Demande    :" Width="100"/>
+            <ComboBox x:Name="DemandeBox" Width="250" 
+                      SelectionChanged="DemandeBox_SelectionChanged">
+                <ComboBoxItem>
+                    Bulletin
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    Attestation
+                </ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+    </StackPanel>
+    </Grid>
+</Page>
