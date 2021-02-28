@@ -1,4 +1,5 @@
-# GL Project Init ##each branch is a project part 
+# GL Project Init 
+## each branch is a project part 
 ### Student data Schema : 
 #### -SurName 
 #### -LastName 
