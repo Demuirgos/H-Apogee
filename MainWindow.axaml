@@ -1,0 +1,65 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ApogeeClient.MainWindow"
+        Title="ApogeeClient"
+        Height="450" Width="800" CanResize="False">
+    <Grid>
+        <ListBox VerticalAlignment="Top" 
+                      HorizontalAlignment="Left" 
+                      Width="600" Height="125">
+        </ListBox>
+        <StackPanel Margin="60,130,15,10">
+            <StackPanel Orientation="Horizontal" Height="30" Margin="10,10">
+                <Label Content="First Name :" Width="100"/>
+                <TextBox x:Name="FirstNameBox" Width="250" 
+                        Text="{Binding FirstName, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="30" Margin="10,10">
+                <Label Content="Last Name  :" Width="100"/>
+                <TextBox x:Name="LastNameBox" Width="250" 
+                        Text="{Binding LastName, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="30" Margin="10,10">
+                <Label Content="CIN        :" Width="100"/>
+                <TextBox x:Name="CINBox" Width="250" 
+                        Text="{Binding CIN, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="30" Margin="10,10">
+                <Label Content="N° Apogée  :" Width="100"/>
+                <TextBox x:Name="ApogeeBox" Width="250" 
+                        Text="{Binding Id, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="30" Margin="10,10">
+                <Label Content="Email      :" Width="100"/>
+                <TextBox x:Name="EmailBox" Width="250" 
+                        Text="{Binding Email, Mode=TwoWay}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Height="30" Margin="10,10">
+                <Label Content="Demande    :" Width="100"/>
+                <ComboBox x:Name="DemandeBox" Width="250" 
+                        SelectedIndex = "0"
+                        SelectionChanged="DemandeBox_SelectionChanged">
+                    <ComboBoxItem>
+                        Bulletin
+                    </ComboBoxItem>
+                    <ComboBoxItem>
+                        Attestation
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <Button Name="Submit" 
+                    Content="Submit" 
+                    Width="150" Height="40" 
+                    Margin="0,10"
+                    Click="Submit_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
