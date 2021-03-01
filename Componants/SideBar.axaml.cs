@@ -1,14 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using System;
 
-namespace ApogeeClient
+namespace ClientSideComponants
 {
-    public class MainWindow : Window
+    public class SideBar : UserControl
     {
-
-        public MainWindow()
+        public SideBar()
         {
             InitializeComponent();
         }
@@ -17,6 +15,5 @@ namespace ApogeeClient
         {
             AvaloniaXamlLoader.Load(this);
         }
-        
     }
 }

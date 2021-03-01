@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         x:Class="MsgBox.MessageBox" CanResize="False"
-        Width="300" Height="75">
+        Width="300" Height="125">
     <StackPanel HorizontalAlignment="Center">
         <TextBlock HorizontalAlignment="Center" Name="Text"/>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Name="Buttons">

@@ -9,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace ApogeeClient
 {
-    class FormData
+    public class FormData
     {
         public enum RequestType
         {

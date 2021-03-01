@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace ApogeeClient
 {
-    public class OAuth2 {
+    public class Authentification {
         static string[] Scopes = { DriveService.Scope.DriveReadonly };
-        static DriveService Service {get;set;}
-        public static void Connect()
+        private static DriveService Service {get; set;}
+        private static void Connect()
         {
             UserCredential credential;
 
@@ -42,17 +42,34 @@ namespace ApogeeClient
                 ApplicationName = "StorageRoom",
             });
 
-            // Define parameters of request.
-            FilesResource.ListRequest listRequest = Service.Files.List();
-            listRequest.PageSize = 10;
-            listRequest.Fields = "nextPageToken, files(id, name)";
-
-            // List files.
-            IList<Google.Apis.Drive.v3.Data.File> files = listRequest.Execute()
-                .Files;
-            
-
         }
+        public static void Upload(string _uploadFile, string _descrp = "Uploaded with .NET!")  
+        {      
+            Connect();
+            var _service = Service;
+            if (System.IO.File.Exists(_uploadFile))  
+            {  
+                var body = new Google.Apis.Drive.v3.Data.File();
+                body.Name = System.IO.Path.GetFileName(_uploadFile);
+                body.MimeType = GetMimeType(_uploadFile);
+
+                FilesResource.CreateMediaUpload request;
+                using (var stream = new System.IO.FileStream(_uploadFile, System.IO.FileMode.Open))
+                {
+                    request = _service.Files.Create(body, stream, body.MimeType);
+                    request.Fields = "id";
+                    request.Upload();
+                }
+            }  
+            else  
+            {  
+               throw new Exception("The file does not exist. 404");  
+            }  
+        }
+        private static string GetMimeType(string fileName)
+      {
+          return "application/unknown";
+      }
     } 
 }
 
