@@ -19,6 +19,9 @@ javafx {
 }
 
 dependencies {
+    implementation 'com.google.api-client:google-api-client:1.23.0'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    implementation 'com.google.apis:google-api-services-drive:v3-rev110-1.23.0'
     implementation 'com.beust:klaxon:5.0.1'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib'
     implementation 'org.jetbrains.exposed:exposed-core:0.29.1'
@@ -26,6 +29,7 @@ dependencies {
     implementation 'org.jetbrains.exposed:exposed-jdbc:0.29.1'
     implementation "mysql:mysql-connector-java:8.0.19"
     implementation 'no.tornado:tornadofx:1.7.20'
+    implementation 'com.sun.mail:javax.mail:1.6.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }

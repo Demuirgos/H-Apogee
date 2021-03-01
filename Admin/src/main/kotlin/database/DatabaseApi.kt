@@ -1,5 +1,7 @@
 package database
 
+import adminSide.Request
+import googleDrive.GoogleConn
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Table
@@ -32,8 +34,12 @@ object DatabaseApi {
         val content: Column<String> = text("content")
     }
 
-    fun generateFile () = {}
+    fun sendRequestAccepted (req: Request) {
+        EmailSender.sendFile(req.email, "Votre document est joint ci-dessous.", FileGenerator.createFile(req.docType).absoluteFile)
+    }
 
-    fun sendRequestRefused () = {}
+    fun sendRequestRefused (req: Request) {
+        EmailSender.sendFile(req.email, "Votre demande de document a été refuser.", null)
+    }
 }
 

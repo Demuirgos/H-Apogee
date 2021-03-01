@@ -3,6 +3,7 @@ package adminSide
 import database.DatabaseApi
 import database.DatabaseApi.Admins
 import database.DatabaseApi.Requests
+import javafx.beans.property.SimpleObjectProperty
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -34,14 +35,14 @@ class Admin private constructor (private val key: String) {
                 .selectAll()
     }
 
-    fun getRequests() =
-        requestList().toList()
-
-    fun approve(b: Boolean) =
-        when (b) {
-            true -> DatabaseApi.generateFile()
-            false -> DatabaseApi.sendRequestRefused()
+    fun approve(req: Request, b: Boolean) {
+        if (key.isNotEmpty()) {
+            when (b) {
+                true -> DatabaseApi.sendRequestAccepted(req)
+                false -> DatabaseApi.sendRequestRefused(req)
+            }
         }
+    }
 
     override fun toString(): String =
         """Account Name: $key

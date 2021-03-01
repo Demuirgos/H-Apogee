@@ -1,7 +1,11 @@
 package UI
 
+import App.AdminApp
+import database.DatabaseApi
+import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Pos
+import javafx.scene.Scene
 import javafx.scene.image.Image
 import tornadofx.*
 import java.io.FileInputStream
@@ -65,12 +69,10 @@ class LoginScreen : View("Login") {
             useMaxHeight = true
 
             action {
-                runAsync {
-                    exitProcess(0)
-                }
+                AppScreen().exit()
             }
 
-            shortcut("esc")
+            shortcut("ctrl + q")
         }
 
         alignment = Pos.CENTER
@@ -78,4 +80,3 @@ class LoginScreen : View("Login") {
         setPrefSize(250.0, 350.0)
     }
 }
-

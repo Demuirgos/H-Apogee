@@ -1,127 +1,95 @@
 package UI
 
-import adminSide.Request
 import adminSide.Session
-import javafx.beans.property.SimpleObjectProperty
+import javafx.application.Platform
 import javafx.geometry.Pos
-import javafx.scene.text.FontWeight
+import javafx.scene.control.Alert
+import javafx.scene.control.ButtonType
+import javafx.scene.text.Font
 import tornadofx.*
+import kotlin.system.exitProcess
 
 class AppScreen : View() {
-    private val rqs: Requests by inject()
-    private val req: SimpleObjectProperty<Request> = SimpleObjectProperty(Request.Empty())
-
-    private val name = req.stringBinding{ it?.firstName }
+    private val requestView: RequestViewModel by inject()
 
     override val root =
         borderpane {
-            left = listview(rqs.values) {
-                cellFormat {
-                    graphic = cache {
-                        form {
-                            fieldset {
-                                field("Nom") {
-                                    label("${it.firstName} ${it.lastName}")
-                                }
 
-                                field("Date") {
-                                    label(it.date)
-                                }
+            top {
+                label(title) {
+                    font = Font.font(22.0)
+                }
 
-                                label(it.docType) {
-                                    alignment = Pos.CENTER_RIGHT
-                                    style {
-                                        fontSize = 16.px
-                                        fontWeight = FontWeight.BOLD
+                menubar {
+                    menu("Fichier") {
+                        item("Se deconnecter", "Shortcut+d").action {
+                            LoginController().logout()
+                        }
+
+                        item("Quitter", "Shortcut+q").action {
+                            exit()
+                        }
+                    }
+                }
+            }
+
+            left = vbox {  add(RequestListFragment::class) }
+
+
+            center = borderpane {
+
+                center = vbox {
+                    add(RequestDetailsFragment::class)
+                }
+
+                bottom = vbox {
+                    vbox {
+
+                        hbox {
+                            vbox {
+                                button("accepter") {
+                                    action {
+                                        runAsync {
+                                            Session.get().approve(requestView.selectedReq.value, true)
+                                        }
                                     }
+                                    useMaxWidth
                                 }
                             }
+
+                            vbox {
+                                button("refuser") {
+                                    action {
+                                        runAsync {
+                                            Session.get().approve(requestView.selectedReq.value, false)
+                                        }
+                                    }
+                                    useMaxWidth
+                                }
+                                paddingLeft = 10
+                            }
+
+                            paddingBottom = 5
+                            alignment = Pos.CENTER
                         }
-                    }
-                }
-                onLeftClick {
-                    runAsync {
-                        req.set(selectedItem)
+
+                        alignment = Pos.CENTER
                     }
                 }
             }
 
-
-            center =  vbox  {
-
-                hbox {
-                    label("Prenom:")
-                    text(req.stringBinding{it?.firstName})
-                }
-
-                hbox {
-                    label("Nom:")
-                    text(req.stringBinding{it?.lastName})
-                }
-
-                hbox {
-                    label("Email:")
-                    text(req.stringBinding{it?.email})
-                }
-
-                hbox {
-                    label("ID:")
-                    text(req.stringBinding{it?.id})
-                }
-
-                hbox {
-                    label("CIN:")
-                    text(req.stringBinding{it?.cin})
-                }
-
-                hbox {
-                    label("Date:")
-                    text(req.stringBinding{it?.date})
-                }
-
-                hbox {
-                    label("Type Document:")
-                    text(req.stringBinding{ it?.docType})
-                }
-
-                hbox {
-                    vbox {
-                        button("accepter") {
-                            action {
-                                Session.get().approve(true)
-                            }
-                        }
-                    }
-
-                    vbox {
-                        button("refuser") {
-                            action {
-                                Session.get().approve(false)
-                            }
-                        }
-                        paddingLeft = 10
-                    }
-
-                    paddingBottom = 10
-                    paddingTop = 10
-                    alignment = Pos.CENTER
-                }
-
-                button("se deconnecter") {
-                    val l = LoginController()
-                    action {
-                        run {
-                            l.logout()
-                        }
-                    }
-
-                    alignment = Pos.CENTER
-                }
-
-                alignment = Pos.TOP_CENTER
-                paddingTop = 10.0
-                paddingLeft = 10.0
-            }
+            setMinSize(600.0, 400.0)
+            setPrefSize(700.0, 500.0)
         }
-}
 
+    fun exit() {
+        alert(Alert.AlertType.CONFIRMATION, "Quitter?") {
+            if(it == ButtonType.OK) {
+                Platform.exit()
+                exitProcess(0)
+            }
+            height = 50.0
+            width = 100.0
+        }
+    }
+}

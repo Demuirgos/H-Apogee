@@ -3,10 +3,9 @@ package UI
 import adminSide.Admin
 import adminSide.Session
 import javafx.beans.property.SimpleStringProperty
-import tornadofx.Controller
-import tornadofx.UIComponent
-import tornadofx.runLater
-import tornadofx.uiComponent
+import javafx.scene.control.Alert
+import javafx.scene.control.ButtonType
+import tornadofx.*
 import utils.Either
 
 class LoginController: Controller() {
@@ -27,7 +26,15 @@ class LoginController: Controller() {
     }
 
     fun logout() {
-        Session.disconnect()
-        primaryStage.uiComponent<UIComponent>()?.replaceWith(LoginScreen::class, sizeToScene = true, centerOnScreen = true)
+        alert(Alert.AlertType.CONFIRMATION, "Se deconnecter?") {
+            if (it == ButtonType.OK) {
+                Session.disconnect()
+                primaryStage.uiComponent<UIComponent>()
+                    ?.replaceWith(LoginScreen::class, sizeToScene = true, centerOnScreen = true)
+            }
+
+            height = 50.0
+            width = 100.0
+        }
     }
 }
