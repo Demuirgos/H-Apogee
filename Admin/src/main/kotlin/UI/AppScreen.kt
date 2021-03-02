@@ -33,7 +33,7 @@ class AppScreen : View() {
                 }
             }
 
-            left = vbox {  add(RequestListFragment::class) }
+            left = vbox { add(RequestListFragment::class) }
 
 
             center = borderpane {
@@ -46,16 +46,21 @@ class AppScreen : View() {
                     vbox {
 
                         hbox {
-                            vbox {
-                                button("accepter") {
-                                    action {
-                                        runAsync {
-                                            Session.get().approve(requestView.selectedReq.value, true)
+
+                            button("accepter") {
+                                action {
+                                    alert(Alert.AlertType.CONFIRMATION, "Voulez-vous supprimez?") {
+                                        if (it == ButtonType.OK) {
+                                            runAsync {
+                                                Session.get().approve(requestView.selectedReq.value, true)
+                                            }
                                         }
+
+                                        useMaxWidth
                                     }
-                                    useMaxWidth
                                 }
                             }
+
 
                             vbox {
                                 button("refuser") {
@@ -72,12 +77,10 @@ class AppScreen : View() {
                             paddingBottom = 5
                             alignment = Pos.CENTER
                         }
-
-                        alignment = Pos.CENTER
                     }
                 }
-            }
 
+            }
             setMinSize(600.0, 400.0)
             setPrefSize(700.0, 500.0)
         }

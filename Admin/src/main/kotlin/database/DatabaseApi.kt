@@ -5,6 +5,7 @@ import googleDrive.GoogleConn
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.Table
+import java.io.File
 
 object DatabaseApi {
 
@@ -35,7 +36,10 @@ object DatabaseApi {
     }
 
     fun sendRequestAccepted (req: Request) {
-        EmailSender.sendFile(req.email, "Votre document est joint ci-dessous.", FileGenerator.createFile(req.docType).absoluteFile)
+        FileGenerator.createFile(req.docType)
+        Runtime.getRuntime().exec("pdfGen.sh")
+        EmailSender.sendFile(req.email, "Votre document est joint ci-dessous.", File("/files/temp/temp.pdf"))
+        Runtime.getRuntime().exec("rm files/temp/*")
     }
 
     fun sendRequestRefused (req: Request) {

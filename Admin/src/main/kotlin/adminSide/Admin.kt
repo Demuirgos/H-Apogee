@@ -2,10 +2,7 @@ package adminSide
 
 import database.DatabaseApi
 import database.DatabaseApi.Admins
-import database.DatabaseApi.Requests
-import javafx.beans.property.SimpleObjectProperty
 import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import utils.Either
 import utils.SHA256.encrypt
@@ -29,10 +26,6 @@ class Admin private constructor (private val key: String) {
 
         fun empty() =
             Admin("")
-
-        fun requestList() =
-            Requests
-                .selectAll()
     }
 
     fun approve(req: Request, b: Boolean) {

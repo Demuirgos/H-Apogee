@@ -2,8 +2,10 @@ package App
 
 import UI.LoginScreen
 import database.DatabaseApi
+import javafx.application.Platform
 import javafx.stage.Stage
 import tornadofx.*
+import kotlin.system.exitProcess
 
 class AdminApp : App(LoginScreen::class) {
     override fun start (stage: Stage) {
@@ -14,6 +16,11 @@ class AdminApp : App(LoginScreen::class) {
             super.start(this)
         }
 
+    }
+
+    override fun stop() {
+        Platform.exit()
+        exitProcess(0)
     }
 }
 

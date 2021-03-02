@@ -12,6 +12,7 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.ticker
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.mortbay.jetty.Main
 import tornadofx.*
 
 class RequestViewModel : ItemViewModel<Request>() {
@@ -61,14 +62,13 @@ class RequestListFragment : Fragment() {
     @ObsoleteCoroutinesApi
     override val root = vbox(4.0) {
         runAsync {
-            runBlocking {
-                val tickerChannel = ticker(delayMillis = 300000, initialDelayMillis = 0)
-                    launch {
-                        for (event in tickerChannel) {
-                            updateTitle("Consultation de Google Drive")
-                            reload()
-                        }
-                    }
+            runBlocking{
+                val tickerEv = ticker(300000, 0)
+                launch {
+                    updateTitle("Consultation de Google Drive")
+                    for (t in tickerEv)
+                        reload()
+                }
             }
         }
 

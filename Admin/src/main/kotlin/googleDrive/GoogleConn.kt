@@ -12,7 +12,9 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.client.util.store.FileDataStoreFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
+import utils.Either
 import java.io.*
+import java.lang.Error
 
 object GoogleConn {
     private const val applicationName = "Service Etudiant"
@@ -45,7 +47,10 @@ object GoogleConn {
         val outputStream = ByteArrayOutputStream()
         service.files().get(fileId)
             .executeMediaAndDownloadTo(outputStream)
-        return Request.fromJson(outputStream.toString(), fileId)!!
+        return when (val ret = Request.fromJson(outputStream.toString(), fileId)!!) {
+                is Either.Right -> ret.value!!
+                is Either.Left -> Request.empty()
+            }
     }
 
     fun checkFiles(): List<Request> {
@@ -54,12 +59,12 @@ object GoogleConn {
             .setPageSize(9)
             .setFields("nextPageToken, files(id, name)")
             .execute()
-        val files: List<com.google.api.services.drive.model.File> = result.files.filter{ file -> file.name.endsWith("json") }.distinctBy { it.name }
+        val files: List<com.google.api.services.drive.model.File> = result.files.filter{ file -> file.name == "test.json" }.distinctBy { it.name }
         return if (files.isEmpty()) {
             println("No files found.")
             emptyList()
         } else {
-            files.map{downloadFile(it.id)}
+            files.map{downloadFile(it.id)}.filter {it.requestId != ""}
         }
     }
 

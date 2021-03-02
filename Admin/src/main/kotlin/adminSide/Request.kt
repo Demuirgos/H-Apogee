@@ -1,11 +1,11 @@
 package adminSide
 
 import com.beust.klaxon.Klaxon
-import java.io.File
+import utils.Either
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
+@Suppress("UNREACHABLE_CODE")
 class Request (
      val requestId: String
     , val firstName: String
@@ -16,52 +16,32 @@ class Request (
     , val date: LocalDate
     , val docType: Doc) {
 
-    enum class Doc {
-        ReleveDeNote,
-        AttestationDeScolarite,
-        AttestationDeStage,
-        Default;
-
-        companion object {
-            fun parse(string: String) =
-                when (string.toLowerCase()) {
-                    "releve de note" -> ReleveDeNote
-                    "attestation de scolarite" -> AttestationDeScolarite
-                    "attestation de stage" -> AttestationDeStage
-                    else -> Default
-                }
-        }
-
-        override fun toString(): String =
-            when (this) {
-                ReleveDeNote -> "Relevé de notes"
-                AttestationDeScolarite -> "Attestation de scolarité"
-                AttestationDeStage -> "Attestation de stage"
-                Default -> ""
-            }
-    }
-
-
 
     companion object {
         fun fromJson(jsonContent: String, requestId: String) =
             Klaxon().parse<Map<String, String>>(jsonContent)?.toRequest(requestId)
 
-        private fun Map<String, String>.toRequest(requestId: String) =
-            this["firstName"]?.let {
-                val request = this["docType"]?.let { it1 -> Doc.parse(it1) }?.let { it2 ->
-                    Request(
-                        requestId,
-                        it,
-                        this["lastName"]!!,
-                        this["email"]!!,
-                        this["id"]!!,
-                        this["cin"]!!,
-                        LocalDate.parse(this["date"], DateTimeFormatter.ofPattern("dd-MM-yyyy")),
-                        it2
-                    )
-                }
-                request
+        private fun Map<String, String>.toRequest(requestId: String)=
+            if (this.keys.containsAll("FirstName Request LastName Email Id CIN Date".split(" "))) {
+                Either.Right(
+                    this["FirstName"]?.let {
+                        val request = this["Request"]?.let { it1 -> Doc.parse(it1) }?.let { it2 ->
+                            Request(
+                                requestId,
+                                it,
+                                this["LastName"]!!,
+                                this["Email"]!!,
+                                this["Id"]!!,
+                                this["CIN"]!!,
+                                LocalDate.parse(this["Date"], DateTimeFormatter.ofPattern("dd-MM-yyyy")),
+                                it2
+                            )
+                        }
+                        request
+                    }
+                )
+            } else {
+                Either.Left(Error("Wrong fields available"))
             }
 
         fun empty() =
