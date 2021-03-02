@@ -1,22 +1,29 @@
-using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
-using Google.Apis.Drive.v3.Data;
 using Google.Apis.Services;
 using Google.Apis.Util.Store;
+using Google.Apis.Auth.OAuth2;
+using Google.Apis.Drive.v3.Data;
+
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
+using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace ApogeeClient
 {
     public class Authentification {
-        static string[] Scopes = { DriveService.Scope.DriveReadonly };
+        static string[] Scopes = { DriveService.Scope.Drive,  
+                           DriveService.Scope.DriveAppdata,      
+                           DriveService.Scope.DriveFile,   
+                           DriveService.Scope.DriveMetadataReadonly, 
+                           DriveService.Scope.DriveReadonly,      
+                           DriveService.Scope.DriveScripts };
         private static DriveService Service {get; set;}
-        private static void Connect()
+        public static DriveService  Connect()
         {
             UserCredential credential;
 
@@ -32,7 +39,6 @@ namespace ApogeeClient
                     "user",
                     CancellationToken.None,
                     new FileDataStore(credPath, true)).Result;
-                Console.WriteLine("Credential file saved to: " + credPath);
             }
 
             // Create Drive API service.
@@ -41,35 +47,36 @@ namespace ApogeeClient
                 HttpClientInitializer = credential,
                 ApplicationName = "StorageRoom",
             });
-
+            return Service;
         }
-        public static void Upload(string _uploadFile, string _descrp = "Uploaded with .NET!")  
-        {      
-            Connect();
-            var _service = Service;
-            if (System.IO.File.Exists(_uploadFile))  
-            {  
-                var body = new Google.Apis.Drive.v3.Data.File();
-                body.Name = System.IO.Path.GetFileName(_uploadFile);
-                body.MimeType = GetMimeType(_uploadFile);
 
-                FilesResource.CreateMediaUpload request;
-                using (var stream = new System.IO.FileStream(_uploadFile, System.IO.FileMode.Open))
-                {
-                    request = _service.Files.Create(body, stream, body.MimeType);
-                    request.Fields = "id";
-                    request.Upload();
-                }
-            }  
-            else  
-            {  
-               throw new Exception("The file does not exist. 404");  
-            }  
+        public static async Task<String>  Upload(DriveService service, string _uploadFile, string _parent = "", string _descrp = "Uploaded with .NET!")  
+        {
+            // Create the service using the client credentials.
+            var fileMetadata = new Google.Apis.Drive.v3.Data.File()
+            {
+                Name = _uploadFile
+            };
+            FilesResource.CreateMediaUpload request;
+            using (var stream = new System.IO.FileStream(_uploadFile,
+                                    System.IO.FileMode.Open))
+            {
+                request =  service.Files.Create(
+                    fileMetadata, stream, "application/unknown");
+                request.Fields = "id";
+                await request.UploadAsync();
+            }
+            var file = request.ResponseBody;
+            return "Request Pending";
         }
+        
         private static string GetMimeType(string fileName)
-      {
-          return "application/unknown";
-      }
+        {
+            string mimeType = "application/unknown";
+            return mimeType;
+        } 
+
+        
     } 
 }
 

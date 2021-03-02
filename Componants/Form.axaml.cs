@@ -3,6 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
+using Google.Apis.Drive.v3.Data;
 using MsgBox;
 using System;
 using System.IO;
@@ -39,11 +40,17 @@ namespace ClientSideComponants
             try{
                 Model.Date = DateTime.Now;
                 var data = Model.Serialize();
-                using (var stream = new StreamWriter("RequestDemo.json"))
+                string FileName = $"{data.GetHashCode()}_{Model.GetHashCode()}_Request.json";
+                using (var stream = new StreamWriter(FileName))
                 {
                     stream.WriteLine(data);
                 }
-                Authentification.Upload("RequestDemo.json");
+                var service = Authentification.Connect();
+                var response = await Authentification.Upload(service, FileName);
+                if (Avalonia.Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+                {
+                    await  MessageBox.Show(desktop.MainWindow, response , "Status", MessageBox.MessageBoxButtons.Ok);
+                }
             } catch (Exception ex) {
                 if (Avalonia.Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
                 {
@@ -51,5 +58,6 @@ namespace ClientSideComponants
                 }
             }
         }
+
     }
 }
