@@ -1,4 +1,3 @@
 #!/bin/sh
 
-cd files/temp
-pdflatex temp.tex
+pdflatex -output-directory files/temp files/temp/temp.tex

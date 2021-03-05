@@ -1,6 +1,5 @@
 package database
 
-import adminSide.Request
 import java.io.File
 import javax.activation.DataHandler
 import javax.activation.FileDataSource
@@ -43,7 +42,7 @@ object EmailSender {
             if (file != null && file.exists()) {
                 val fileSource = FileDataSource(file.absolutePath)
                 filePart.dataHandler = DataHandler(fileSource)
-                filePart.fileName = "file.json"
+                filePart.fileName = file.name
                 multipart.addBodyPart(filePart)
             }
 

@@ -16,7 +16,7 @@ import utils.Either
 import java.io.*
 import java.lang.Error
 
-object GoogleConn {
+object GoogleApiDriver {
     private const val applicationName = "Service Etudiant"
     private val jsonFactory = JacksonFactory.getDefaultInstance()
     private const val tokens = "tokens"

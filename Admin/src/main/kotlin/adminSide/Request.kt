@@ -5,13 +5,13 @@ import utils.Either
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@Suppress("UNREACHABLE_CODE")
 class Request (
      val requestId: String
     , val firstName: String
     , val lastName: String
     , val email: String
-    , val id: String
+    , val id: Int
+    , val cne: String
     , val cin: String
     , val date: LocalDate
     , val docType: Doc) {
@@ -31,7 +31,8 @@ class Request (
                                 it,
                                 this["LastName"]!!,
                                 this["Email"]!!,
-                                this["Id"]!!,
+                                this["Id"]!!.toInt(),
+                                this["CNE"]!!,
                                 this["CIN"]!!,
                                 LocalDate.parse(this["Date"], DateTimeFormatter.ofPattern("dd-MM-yyyy")),
                                 it2
@@ -45,7 +46,7 @@ class Request (
             }
 
         fun empty() =
-            Request ("","", "", "", "", "", LocalDate.of(1970, 1, 1), Doc.Default)
+            Request ("0","null", "null", "null", 0, "0", "0", LocalDate.of(1970, 1, 1), Doc.Default)
     }
 
     override fun toString(): String =
@@ -53,7 +54,7 @@ class Request (
             |First name: $firstName
             |Last name: $lastName
             |Email: $email
-            |id: $id
+            |id: $cne
             |cin: $cin
             |date: $date
             |docType: $docType
