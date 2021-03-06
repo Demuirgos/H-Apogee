@@ -5,7 +5,5 @@
              xmlns:plate="clr-namespace:ClientSideComponants"
              x:Class="ClientSideComponants.SideBar"
             Width="155" Height="500">
-  <ListBox Name="SideBarView">
-    <plate:RequestPlate/>
-  </ListBox>
+  <ListBox Name="SideBarView"/>
 </UserControl>

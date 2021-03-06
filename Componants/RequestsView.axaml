@@ -8,16 +8,18 @@
   <StackPanel>
     <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="_Add..."/>
+                <MenuItem Header="_Open..." Tapped="OpnBtn_Click"/>
                 <Separator/>
-                <MenuItem Header="_Remove..."/>
+                <MenuItem Header="_Save..." Tapped="SavBtn_Click"/>
                 <Separator/>
                 <MenuItem Header="_Exit"/>
             </MenuItem>
             <MenuItem Header="_Edit">
-                <MenuItem Name="GotoList" Header="Go To">
-                  <MenuItem Header="1"/>
-                </MenuItem>
+                <MenuItem Header="_Add..." Tapped="AddBtn_Click"/>
+                <Separator/>
+                <MenuItem Header="_Remove..." Tapped="RemBtn_Click"/>
+                <Separator/>
+                <MenuItem Header="_Clear..." Tapped="ClrBtn_Click"/>
             </MenuItem>
             <MenuItem Header="_Email">
                 <MenuItem Name="InboxBtn" Header="Inbox"/>
@@ -27,12 +29,14 @@
             </MenuItem>
       </Menu>
       <StackPanel Orientation="Horizontal" Margin="0,5">
-            <views:SideBar HorizontalAlignment="Left"
-                          VerticalAlignment="Top"
-                          />
-            <views:Form HorizontalAlignment="Right"
+            <views:SideBar Name="PlatesBar"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           />
+            <views:Form Name="Board"
+                        HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
-                        Margin="125,75"/>
+                        Margin="25,0"/>
       </StackPanel>
   </StackPanel>
 </UserControl>

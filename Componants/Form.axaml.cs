@@ -3,19 +3,29 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
-using Google.Apis.Drive.v3.Data;
+
 using MsgBox;
 using System;
 using System.IO;
-using System.Linq;
 using System.Text;
+using System.ComponentModel;
+
 using ApogeeClient;
 
 namespace ClientSideComponants
 {
     public class Form : UserControl
     {
-        FormData Model = new FormData();
+        FormData _model = new FormData();
+        public FormData Model {
+            get => _model;
+            set {
+                _model = value;
+                SetView();
+                hookSubscriber();
+            }  
+        }
+
         public Form()
         {
             InitializeComponent();
@@ -26,12 +36,30 @@ namespace ClientSideComponants
             AvaloniaXamlLoader.Load(this);
             this.DataContext = Model;
         }
+
+        private void SetView(){
+            this.FindControl<TextBox>("FirstNameBox").Text = _model.FirstName;
+            this.FindControl<TextBox>("LastNameBox").Text = _model.LastName;
+            this.FindControl<TextBox>("CINBox").Text = _model.CIN;
+            this.FindControl<TextBox>("ApogeeBox").Text = _model.Id;
+            this.FindControl<TextBox>("EmailBox").Text = _model.Email;
+            this.FindControl<ComboBox>("DemandeBox").SelectedIndex = _model.Request == "Bulletin" ? 1 : 0;
+        }
+
+        private void hookSubscriber(){
+            this.FindControl<TextBox>("FirstNameBox").PropertyChanged += (object src,Avalonia.AvaloniaPropertyChangedEventArgs args) => _model.FirstName = (src as TextBox).Text;
+            this.FindControl<TextBox>("LastNameBox").PropertyChanged += (object src,Avalonia.AvaloniaPropertyChangedEventArgs args) => _model.LastName = (src as TextBox).Text;
+            this.FindControl<TextBox>("CINBox").PropertyChanged += (object src,Avalonia.AvaloniaPropertyChangedEventArgs args) => _model.CIN = (src as TextBox).Text;
+            this.FindControl<TextBox>("ApogeeBox").PropertyChanged += (object src,Avalonia.AvaloniaPropertyChangedEventArgs args) => _model.Id = (src as TextBox).Text;
+            this.FindControl<TextBox>("EmailBox").PropertyChanged += (object src,Avalonia.AvaloniaPropertyChangedEventArgs args) => _model.Email = (src as TextBox).Text;
+        }
+
         private void DemandeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Model.Request = (sender as ComboBox).SelectedIndex switch
             {
-                1 => FormData.RequestType.Bulletin,
-                _ => FormData.RequestType.Attestation,
+                1 => "Bulletin",
+                _ => "Attestation",
             };
         }
 

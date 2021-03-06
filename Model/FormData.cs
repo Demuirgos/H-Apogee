@@ -6,57 +6,95 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.ComponentModel;
 
 namespace ApogeeClient
 {
-    public class FormData
+    public class FormData : NotifierClass
     {
         public enum RequestType
         {
             Attestation,
             Bulletin
         }
-        string _firstName;
-        string _lastName;
-        string _CIN;
-        string _id;
-        string _email;
+
+        string _firstName = "";
+        string _lastName  = "";
+        string _CIN       = "";
+        string _id        = "";
+        string _email     = "";
+        DateTime _date    = DateTime.Now;
+        RequestType _type = RequestType.Attestation;
         public string Email
         {
-            get => Regex.Match(_email, "[0-9A-Za-z.]+@[a-zA-Z]+[.][a-zA-Z]+").Success?_email:throw new Exception("Email Invalid"); 
-            set => _email = value;
+            get => _email;//Regex.Match(_email, "[0-9A-Za-z.]+@[a-zA-Z]+[.][a-zA-Z]+").Success?_email:throw new Exception("Email Invalid"); 
+            set {
+                _email = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public string FirstName
         {   
-            get => String.IsNullOrWhiteSpace(_firstName)?throw new Exception("First Name missing"):_firstName; 
-            set => _firstName = value;
+            get => _firstName;//String.IsNullOrWhiteSpace(_firstName)?throw new Exception("First Name missing"):_firstName; 
+            set {
+                _firstName = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public string LastName
         {   
-            get => String.IsNullOrWhiteSpace(_lastName)?throw new Exception("Last Name missing"):_lastName; 
-            set => _lastName = value;
+            get => _lastName;//String.IsNullOrWhiteSpace(_lastName)?throw new Exception("Last Name missing"):_lastName; 
+            set {
+                _lastName = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public String Id
         {   
-            get => String.IsNullOrWhiteSpace(_id)?throw new Exception("ID Invalid"):_id; 
-            set => _id = value;
+            get => _id;//String.IsNullOrWhiteSpace(_id)?throw new Exception("ID Invalid"):_id; 
+            set {
+                _id = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public string CIN
         {   
-            get => String.IsNullOrWhiteSpace(_CIN)?throw new Exception("CIN Invalid"):_CIN; 
-            set => _CIN = value;
+            get => _CIN;//String.IsNullOrWhiteSpace(_CIN)?throw new Exception("CIN Invalid"):_CIN; 
+            set {
+                _CIN = value;
+                NotifyPropertyChanged();
+            }
         }
 
         public DateTime Date
-        { get; set; }
+        { 
+            get => _date;
+            set {
+                _date = value;
+                NotifyPropertyChanged();
+            }
+        }
 
-        public RequestType Request
-        { get; set; }
+        public string Request
+        { 
+            get => _type.ToString();
+            set {
+                _type = value=="Bulletin"?RequestType.Bulletin:RequestType.Attestation;
+                NotifyPropertyChanged();
+            }
+        }
 
-        public String Serialize() => JsonSerializer.Serialize(this);
+        private bool Valid =>
+            Regex.Match(_email, "[0-9A-Za-z.]+@[a-zA-Z]+[.][a-zA-Z]+").Success
+            && !String.IsNullOrWhiteSpace(_id)
+            && !String.IsNullOrWhiteSpace(_lastName)
+            && !String.IsNullOrWhiteSpace(_firstName)
+            && !String.IsNullOrWhiteSpace(_CIN) ;
+            
+        public String Serialize() => Valid ? JsonSerializer.Serialize(this) : throw new Exception("Form Invalid or incomplete");
     }
 }

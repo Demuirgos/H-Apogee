@@ -7,10 +7,12 @@ namespace ApogeeClient
 {
     public class MainWindow : Window
     {
-
         public MainWindow()
         {
             InitializeComponent();
+#if DEBUG
+            this.AttachDevTools();
+#endif
         }
 
         private void InitializeComponent()

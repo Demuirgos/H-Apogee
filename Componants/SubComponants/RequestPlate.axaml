@@ -4,9 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Class="ClientSideComponants.RequestPlate"
              Width="145" Height="100">
-  <StackPanel >
-    <TextBox Text="{Binding Model.Title}" />
-    <TextBox Text="{Binding Request}"/>
-    <TextBox Text="{Binding Date}"/>
+  <StackPanel Orientation="Horizontal" >
+    <Rectangle Margin="10" Width="10" Height="135" Fill="Gray" />
+    <StackPanel>
+      <TextBlock Name="TitleBox"/>
+      <TextBlock Name="TypeBox"/>
+      <TextBlock Name="DateBox"/>
+    </StackPanel>
   </StackPanel>
 </UserControl>

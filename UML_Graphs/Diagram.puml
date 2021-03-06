@@ -1,0 +1,4 @@
+@startuml
+user->Application: Open Application
+
+@enduml
