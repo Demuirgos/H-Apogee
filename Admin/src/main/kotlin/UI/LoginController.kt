@@ -17,8 +17,7 @@ class LoginController: Controller() {
         runLater {
             when (response) {
                 is Either.Right -> {
-                    Session.startSession(response.value)
-                    find(LoginScreen::class).replaceWith(AppScreen::class, sizeToScene = true, centerOnScreen = true)
+                    find(LoginScreen::class).replaceWith(AppWorkSpace::class, centerOnScreen = true, sizeToScene = true)
                 }
                 is Either.Left -> statusProperty.set("Invalid account")
             }

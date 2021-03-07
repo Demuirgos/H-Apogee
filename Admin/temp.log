@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.2.9)  5 MAR 2021 12:51
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.2.9)  6 MAR 2021 13:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -284,7 +284,7 @@ Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 )
 LaTeX Font Info:    Trying to load font information for T1+clm2js on input line
- 27.
+ 28.
 
 (/usr/share/texmf-dist/tex/latex/cfr-lm/t1clm2js.fd
 File: t1clm2js.fd 2010/05/25 Fontinst v1.933 font definitions for T1/clm2js.
@@ -293,143 +293,26 @@ File: t1clm2js.fd 2010/05/25 Fontinst v1.933 font definitions for T1/clm2js.
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 \l__kernel_color_stack_int=\count279
 \l__pdf_internal_box=\box50
-)
-No file temp.aux.
-LaTeX Font Info:    Checking defaults for OML/lmm/m/it on input line 27.
+) (./temp.aux)
+LaTeX Font Info:    Checking defaults for OML/lmm/m/it on input line 28.
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
-7.
+8.
+
 (/usr/share/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMS/lmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OMS/lmsy/m/n on input line 28.
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-27.
+28.
 
 (/usr/share/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OT1/lmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 28.
+LaTeX Font Info:    Checking defaults for OT1/lmr/m/n on input line 28.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
-7.
+8.
 
 (/usr/share/texmf-dist/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for OMX/lmex/m/n on input line 27.
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-27.
-
-(/usr/share/texmf-dist/tex/latex/lm/omxlmex.fd
-File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
-LaTeX Font Info:    ... okay on input line 27.
-LaTeX Info: Redefining \degres on input line 27.
-LaTeX Info: Redefining \dots on input line 27.
-LaTeX Info: Redefining \up on input line 27.
-
-(/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count280
-\scratchdimen=\dimen181
-\scratchbox=\box51
-\nofMPsegments=\count281
-\nofMParguments=\count282
-\everyMPshowfont=\toks24
-\MPscratchCnt=\count283
-\MPscratchDim=\dimen182
-\MPnumerator=\count284
-\makeMPintoPDFobject=\count285
-\everyMPtoPDFconversion=\toks25
-) (/usr/share/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
-Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
-
-(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
-*geometry* driver: auto-detecting
-*geometry* detected driver: pdftex
-*geometry* verbose mode - [ preamble ] result:
-* driver: pdftex
-* paper: a4paper
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: 
-* h-part:(L,W,R)=(71.13188pt, 455.24411pt, 71.13188pt)
-* v-part:(T,H,B)=(113.81102pt, 645.87756pt, 85.35826pt)
-* \paperwidth=597.50787pt
-* \paperheight=845.04684pt
-* \textwidth=455.24411pt
-* \textheight=645.87756pt
-* \oddsidemargin=-1.1381pt
-* \evensidemargin=-1.1381pt
-* \topmargin=-63.45897pt
-* \headheight=80.0pt
-* \headsep=25.0pt
-* \topskip=10.0pt
-* \footskip=42.67912pt
-* \marginparwidth=57.0pt
-* \marginparsep=11.0pt
-* \columnsep=10.0pt
-* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-LaTeX Font Info:    Font shape `T1/clm2js/b/n' in size <10> not available
-(Font)              Font shape `T1/clm2js/bx/n' tried instead on input line 33.
-
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 36.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 36.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 36.
-
-LaTeX Warning: File `../Logos/logoUAE.png' not found on input line 91.
-
-
-! Package pdftex.def Error: File `../Logos/logoUAE.png' not found: using draft 
-setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.91 \end{document}
-                   
-? 
-! Emergency stop.
- ...                                              
-                                                  
-l.91 \end{document}
-                   
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
- 
-Here is how much of TeX's memory you used:
- 6724 strings out of 479383
- 92983 string characters out of 5875831
- 399984 words of memory out of 5000000
- 23741 multiletter control sequences out of 15000+600000
- 424012 words of font info for 41 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 66i,11n,72p,316b,424s stack positions out of 5000i,500n,10000p,200000b,80000s
-!  ==> Fatal error occurred, no output PDF file produced!
+File: ot1lmr.fd 2009/

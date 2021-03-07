@@ -28,25 +28,6 @@ class RequestListFragment : Fragment() {
             }
         }
 
-        hbox {
-            button("Recharger") {
-                setOnAction { reload() }
-            }
-
-            button("Supprimer") {
-                setOnAction {
-                    alert(Alert.AlertType.CONFIRMATION, "Voulez-vous supprimer cette requete?") {
-                        requestViewModel.load(
-                            GoogleApiDriver.deleteFile(
-                                requestViewModel.selectedReq.value.requestId,
-                                requestViewModel.requests.value
-                            )
-                        )
-                    }
-                }
-            }
-        }
-
         listview<Request> {
             itemsProperty().bind(requestViewModel.requests)
 
@@ -87,8 +68,24 @@ class RequestListFragment : Fragment() {
         }
     }
 
-    private fun reload() {
-        requestViewModel.reload()
+    fun delete() {
+        alert(Alert.AlertType.CONFIRMATION, "Voulez-vous supprimer cette requete?") {
+            val id =
+                requestViewModel.selectedReq.value.requestId
+            runBlocking {
+                GoogleApiDriver.deleteFile(id)
+            }
+
+            runBlocking {
+                requestViewModel.load(
+                    requestViewModel.requests.value.filter { it.requestId != id }
+                )
+            }
+
+        }
     }
 
+    fun reload() {
+        requestViewModel.reload()
+    }
 }

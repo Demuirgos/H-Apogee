@@ -1,17 +1,17 @@
 package database
 
 import adminSide.Doc
-import adminSide.ReleveDeNote
-import java.io.File
-import java.io.FileOutputStream
+import paperWork.AttestationDeScolarite
+import paperWork.AttestationDeStage
+import paperWork.ReleveDeNote
 
 
 object FileGenerator {
   fun createFile(docType: Doc, id: Int) {
       when (docType) {
         Doc.ReleveDeNote -> ReleveDeNote.generateFile(id)
-        Doc.AttestationDeScolarite -> TODO()
-        Doc.AttestationDeStage -> TODO()
+        Doc.AttestationDeScolarite -> AttestationDeScolarite.generateFile(id)
+        Doc.AttestationDeStage -> AttestationDeStage.generateFile(id)
         Doc.Default -> throw Error("type demande invalide")
       }
   }

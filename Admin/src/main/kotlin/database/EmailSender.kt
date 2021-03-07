@@ -51,13 +51,13 @@ object EmailSender {
                 InternetAddress.parse(sendTo)
             )
 
-            message.subject = "Réponse : Requête"
+            message.subject = "[AdminReply] Requête"
 
             message.setContent(multipart)
 
             Transport.send(message)
 
-            println("Sent message successfully....")
+
         } catch (e: MessagingException) {
             e.printStackTrace()
         }

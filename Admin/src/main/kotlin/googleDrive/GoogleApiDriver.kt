@@ -14,7 +14,6 @@ import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
 import utils.Either
 import java.io.*
-import java.lang.Error
 
 object GoogleApiDriver {
     private const val applicationName = "Service Etudiant"
@@ -43,7 +42,7 @@ object GoogleApiDriver {
         .setApplicationName(applicationName)
         .build()
 
-    private fun downloadFile (fileId: String): Request {
+    private fun downloadFileToReq (fileId: String): Request {
         val outputStream = ByteArrayOutputStream()
         service.files().get(fileId)
             .executeMediaAndDownloadTo(outputStream)
@@ -53,23 +52,31 @@ object GoogleApiDriver {
             }
     }
 
+    fun downloadFile (fileId: String): String {
+        val outputStream = ByteArrayOutputStream()
+        service.files().get(fileId)
+            .executeMediaAndDownloadTo(outputStream)
+        return outputStream.toString()
+    }
+
     fun checkFiles(): List<Request> {
 
         val result = service.files().list()
             .setPageSize(9)
             .setFields("nextPageToken, files(id, name)")
             .execute()
-        val files: List<com.google.api.services.drive.model.File> = result.files.filter{ file -> file.name == "test.json" }.distinctBy { it.name }
+        val files: List<com.google.api.services.drive.model.File> = result.files.filter{ file -> file.name.endsWith(".json") }.distinctBy { it.name }
         return if (files.isEmpty()) {
             println("No files found.")
             emptyList()
         } else {
-            files.map{downloadFile(it.id)}.filter {it.requestId != ""}
+            files.map{ downloadFileToReq(it.id) }.filter {it.requestId != ""}
         }
     }
 
-    fun deleteFile(fileId: String, list: List<Request>): List<Request> {
+
+
+    fun deleteFile(fileId: String) {
         service.files().delete(fileId).executeUnparsed()
-        return list.filter { it.requestId != fileId }
     }
 }

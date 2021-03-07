@@ -19,7 +19,7 @@ class Admin private constructor (private val key: String) {
                     .toList().firstOrNull()?.get(Expression.build { Admins.adminId })
 
                 if (accId != null) {
-                    Either.Right(Admin("$accId $account $pwd".encrypt()))
+                    Either.Right(Session.startSession(Admin("$accId $account $pwd".encrypt())))
                 } else
                     Either.Left(Error("Compte invalide"))
             }
@@ -29,11 +29,11 @@ class Admin private constructor (private val key: String) {
             Admin("")
     }
 
-    fun approve(req: Request, b: Boolean) {
+    fun approve(req: Request, msg: String, b: Boolean) {
         if (key.isNotEmpty()) {
             when (b) {
-                true -> DatabaseApi.sendRequestAccepted(req)
-                false -> DatabaseApi.sendRequestRefused(req)
+                true -> DatabaseApi.sendRequestAccepted(req, "")
+                false -> DatabaseApi.sendRequestRefused(req, msg)
             }
         }
     }

@@ -1,6 +1,7 @@
 package database
 
 import adminSide.Request
+import database.DatabaseApi.Documents.idDoc
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.jodatime.date
 import org.jetbrains.exposed.sql.statements.api.ExposedBlob
@@ -37,9 +38,10 @@ object DatabaseApi {
     }
 
     object Modules: Table() {
-        val idModule: Column<Int> = integer("id_module").uniqueIndex()
+        val idModule: Column<String> = varchar("id_module",10).uniqueIndex()
         val nomModule: Column<String> = varchar("nom_module",255)
         val niveau: Column<String> = varchar("niveau", 20)
+        val semestre: Column<Int> = integer("semestre")
         val fichierNotes: Column<String> = text("fichier_note")
     }
 
@@ -49,47 +51,96 @@ object DatabaseApi {
         val modelDoc: Column<String> = text("model_doc")
     }
 
-    fun sendRequestAccepted (req: Request) {
+    object Requests: Table() {
+        val idRequest: Column<String> = varchar("id_request", 256).uniqueIndex()
+        val studentId: Column<Int> = integer("id_student")
+        val fichierReq: Column<String> = text("ficher_json")
+        val etatRequest: Column<Boolean> = bool("etat_requete")
+    }
+
+    fun sendRequestAccepted (req: Request, msg: String) {
         FileGenerator.createFile(req.docType, req.id)
         EmailSender.sendFile(req.email, "Votre document est joint ci-dessous.", File("files/temp/temp.pdf"))
         File("files/temp").deleteRecursively()
+        req.addToDB(true)
     }
 
-    fun sendRequestRefused (req: Request) {
-        EmailSender.sendFile(req.email, "Votre demande de document a été refuser.", null)
+    fun sendRequestRefused (req: Request, msg: String) {
+        EmailSender.sendFile(req.email, "Votre demande de document a été refuser.\nRaison : $msg", null)
+        req.addToDB(false)
     }
+
 }
 
 fun main() {
     DatabaseApi.connectDB()
     /*transaction {
-        SchemaUtils.drop(DatabaseApi.Students)
-        SchemaUtils.create(DatabaseApi.Students)
+        //SchemaUtils.drop(DatabaseApi.Students)
+        //SchemaUtils.create(DatabaseApi.Studen
+        ts)
         DatabaseApi.Students.insert {
-            it[studentId] = 16039428
-            it[firstName] = "Taha"
-            it[lastName] = "metougui"
+            it[studentId] = 123456789
+            it[firstName] = "Ayman"
+            it[lastName] = "Bouchareb"
             it[niveau] = "GI2"
-            it[CIN] = "L610332"
-            it[cne] = "P100086303"
-            it[email] = "taha.metougui@etu.uae.ac.ma"
-            it[annee] = DateTime("1998-02-23")
+            it[CIN] = "LF57626"
+            it[cne] = "P1360778773"
+            it[email] = "Ayman.Bouchareb@etu.uae.ac.ma"
+            it[annee] = DateTime("1999-07-23")
             it[ville] = "Tetouan"
         }
     }*/
 
-    transaction {
-        /*SchemaUtils.drop(DatabaseApi.Modules)
+    /*transaction {
+        SchemaUtils.drop(DatabaseApi.Modules)
         SchemaUtils.create(DatabaseApi.Modules)
-        File("files/module").listFiles().zip(IntRange(1,12)).forEach {x ->
+        File("files/module1").listFiles().zip(IntRange(1,6)).forEach {x ->
             DatabaseApi.Modules.insert {
-                it[idModule] = x.second
+                it[idModule] = "GI2S3${x.second}"
                 it[nomModule] = x.first.nameWithoutExtension
                 it[fichierNotes] = x.first.readText()
+                it[semestre] = 1
                 it[niveau] = "GI2"
             }
-        }*/
-        print(DatabaseApi.Modules.select { DatabaseApi.Modules.niveau eq "GI2"}.map {it[Expression.build { DatabaseApi.Modules.fichierNotes }]})
-    }
+        }
+
+        File("files/module2").listFiles().zip(IntRange(1,6)).forEach {x ->
+            DatabaseApi.Modules.insert {
+                it[idModule] = "GI2S4${x.second}"
+                it[nomModule] = x.first.nameWithoutExtension
+                it[fichierNotes] = x.first.readText()
+                it[semestre] = 2
+                it[niveau] = "GI2"
+            }
+        }
+    }*/
+
+    /*transaction {
+        DatabaseApi.Documents.deleteWhere { idDoc eq 0 }
+        DatabaseApi.Documents.deleteWhere { idDoc eq 2 }
+        DatabaseApi.Documents.deleteWhere { idDoc eq 1 }
+
+        DatabaseApi.Documents.insert {
+            it[idDoc] = 0
+            it[nomDoc] = "Attestation de stage"
+            it[modelDoc] = File("files/ReleveDeNote/ReleveDeNote.tex").readText()
+        }
+
+        DatabaseApi.Documents.insert {
+            it[idDoc] = 1
+            it[nomDoc] = "Attestation de stage"
+            it[modelDoc] = File("files/AttestationDeScolarite/AttestationDeScolarite.tex").readText()
+        }
+
+        DatabaseApi.Documents.insert {
+            it[idDoc] = 2
+            it[nomDoc] = "Attestation de stage"
+            it[modelDoc] = File("files/AttestationDeStage/AttestationDeStage.tex").readText()
+        }
+    }*/
+
+    /*transaction {
+        SchemaUtils.create(DatabaseApi.Requests)
+    }*/
 }
 

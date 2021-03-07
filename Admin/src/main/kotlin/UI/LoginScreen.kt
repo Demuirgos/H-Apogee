@@ -1,15 +1,10 @@
 package UI
 
-import App.AdminApp
-import database.DatabaseApi
-import javafx.application.Platform
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Pos
-import javafx.scene.Scene
 import javafx.scene.image.Image
 import tornadofx.*
 import java.io.FileInputStream
-import kotlin.system.exitProcess
 
 class LoginScreen : View("Login") {
     private val model = ViewModel()
@@ -69,7 +64,7 @@ class LoginScreen : View("Login") {
             useMaxHeight = true
 
             action {
-                AppScreen().exit()
+                UntreatedView().exit()
             }
 
             shortcut("ctrl + q")
