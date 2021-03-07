@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Class="ClientSideComponants.RequestPlate"
-             Width="145" Height="100">
+             Width="200" Height="100">
   <StackPanel Orientation="Horizontal" >
     <Rectangle Margin="10" Width="10" Height="135" Fill="Gray" />
     <StackPanel>

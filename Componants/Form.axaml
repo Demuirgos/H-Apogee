@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:imaging="clr-namespace:Avalonia.Media.Imaging;assembly=Avalonia.Visuals"
-             x:Class="ClientSideComponants.Form" Height="500">
+             x:Class="ClientSideComponants.Form" Height="550">
              <StackPanel>
                 <TextBlock Text="Request Form :" Height="75" FontSize="49"/>
                 <StackPanel Margin="75,25">
@@ -28,6 +28,11 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Height="30" Margin="10,10">
+                        <Label Content="CNE        :" Width="100"/>
+                        <TextBox x:Name="CneBox" Width="250" />
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal" Height="30" Margin="10,10">
                         <Label Content="Email      :" Width="100"/>
                         <TextBox x:Name="EmailBox" Width="250" />
                     </StackPanel>
@@ -38,10 +43,13 @@
                                 SelectedIndex = "0"
                                 SelectionChanged="DemandeBox_SelectionChanged">
                             <ComboBoxItem>
-                                Attestation
+                                Relevé De Notes
                             </ComboBoxItem>
                             <ComboBoxItem>
-                                Bulletin
+                                Attestation De Scolarité
+                            </ComboBoxItem>
+                            <ComboBoxItem>
+                                Attestation De Stage
                             </ComboBoxItem>
                         </ComboBox>
                     </StackPanel>

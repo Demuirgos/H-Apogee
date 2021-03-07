@@ -14,7 +14,7 @@ namespace ClientSideComponants
     public class SideBar : UserControl, INotifyPropertyChanged
     {
         ObservableCollection<PlateModel> plates = new ObservableCollection<PlateModel>();
-        public event PropertyChangedEventHandler PropertyChanged;
+        public new event PropertyChangedEventHandler PropertyChanged ;
 
         private void NotifyPropertyChanged(String propertyName = "")
         {

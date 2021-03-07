@@ -43,7 +43,8 @@ namespace ClientSideComponants
             this.FindControl<TextBox>("CINBox").Text = _model.CIN;
             this.FindControl<TextBox>("ApogeeBox").Text = _model.Id;
             this.FindControl<TextBox>("EmailBox").Text = _model.Email;
-            this.FindControl<ComboBox>("DemandeBox").SelectedIndex = _model.Request == "Bulletin" ? 1 : 0;
+            this.FindControl<TextBox>("CneBox").Text = _model.CNE;
+            this.FindControl<ComboBox>("DemandeBox").SelectedIndex = _model.Request == FormData.RequestType.RelevéDeNotes?1: _model.Request ==  FormData.RequestType.AttestationDeScolarité?2:3;
         }
 
         private void hookSubscriber(){
@@ -52,21 +53,23 @@ namespace ClientSideComponants
             this.FindControl<TextBox>("CINBox").PropertyChanged += (object src,Avalonia.AvaloniaPropertyChangedEventArgs args) => _model.CIN = (src as TextBox).Text;
             this.FindControl<TextBox>("ApogeeBox").PropertyChanged += (object src,Avalonia.AvaloniaPropertyChangedEventArgs args) => _model.Id = (src as TextBox).Text;
             this.FindControl<TextBox>("EmailBox").PropertyChanged += (object src,Avalonia.AvaloniaPropertyChangedEventArgs args) => _model.Email = (src as TextBox).Text;
+            this.FindControl<TextBox>("CneBox").PropertyChanged += (object src,Avalonia.AvaloniaPropertyChangedEventArgs args) => _model.CNE = (src as TextBox).Text;
         }
 
         private void DemandeBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Model.Request = (sender as ComboBox).SelectedIndex switch
             {
-                1 => "Bulletin",
-                _ => "Attestation",
+                0 => FormData.RequestType.RelevéDeNotes ,
+                1 => FormData.RequestType.AttestationDeScolarité,
+                _ => FormData.RequestType.AttestationDeStage,
             };
         }
 
         private async void Submit_Click(object sender, RoutedEventArgs e)
         {
             try{
-                Model.Date = DateTime.Now;
+                Model.Date = DateTime.Now.ToString();
                 var data = Model.Serialize();
                 string FileName = $"{data.GetHashCode()}_{Model.GetHashCode()}_Request.json";
                 using (var stream = new StreamWriter(FileName))

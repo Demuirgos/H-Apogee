@@ -42,7 +42,7 @@ namespace ApogeeClient
         }
         public  int index {get; init;} = 0;
         public string Title => $"Request N° : {index}";
-        public string Date => ModelRef.Date.ToString("MM/dd/yyyy");
+        public string Date => ModelRef.Date;
         public string Request => ModelRef.Request.ToString();
 
     }

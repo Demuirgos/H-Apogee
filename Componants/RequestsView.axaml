@@ -21,11 +21,13 @@
                 <Separator/>
                 <MenuItem Header="_Clear..." Tapped="ClrBtn_Click"/>
             </MenuItem>
-            <MenuItem Header="_Email">
+            <MenuItem Name="LogoutMenu" Header="_Email">
                 <MenuItem Name="InboxBtn" Header="Inbox"/>
                 <MenuItem Name="PendingBtn" Header="Pending"/>
-                <MenuItem Name="LogInBtn" Header="Log in"/>
                 <MenuItem Name="LogOutBtn" Header="Log out"/>
+            </MenuItem>
+            <MenuItem Name="LoginMenu" Header="_Email">
+                <MenuItem Name="LogInBtn" Header="Log in" Tapped="LogInBtn_Click"/>
             </MenuItem>
       </Menu>
       <StackPanel Orientation="Horizontal" Margin="0,5">
@@ -35,8 +37,8 @@
                            />
             <views:Form Name="Board"
                         HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Margin="25,0"/>
+                        VerticalAlignment="Bottom" 
+                        Margin="25,-75,0,0"/>
       </StackPanel>
   </StackPanel>
 </UserControl>

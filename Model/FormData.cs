@@ -14,8 +14,9 @@ namespace ApogeeClient
     {
         public enum RequestType
         {
-            Attestation,
-            Bulletin
+            RelevéDeNotes,
+            AttestationDeScolarité,
+            AttestationDeStage
         }
 
         string _firstName = "";
@@ -23,8 +24,9 @@ namespace ApogeeClient
         string _CIN       = "";
         string _id        = "";
         string _email     = "";
+        string _CNE       = "";
         DateTime _date    = DateTime.Now;
-        RequestType _type = RequestType.Attestation;
+        RequestType _type = RequestType.RelevéDeNotes;
         public string Email
         {
             get => _email;//Regex.Match(_email, "[0-9A-Za-z.]+@[a-zA-Z]+[.][a-zA-Z]+").Success?_email:throw new Exception("Email Invalid"); 
@@ -61,6 +63,15 @@ namespace ApogeeClient
             }
         }
 
+        public string CNE
+        {
+            get => _CNE;//Regex.Match(_email, "[0-9A-Za-z.]+@[a-zA-Z]+[.][a-zA-Z]+").Success?_email:throw new Exception("Email Invalid"); 
+            set {
+                _CNE = value;
+                NotifyPropertyChanged();
+            }
+        }
+
         public string CIN
         {   
             get => _CIN;//String.IsNullOrWhiteSpace(_CIN)?throw new Exception("CIN Invalid"):_CIN; 
@@ -70,20 +81,20 @@ namespace ApogeeClient
             }
         }
 
-        public DateTime Date
+        public string Date
         { 
-            get => _date;
+            get => _date.ToString("dd MM yyyy");
             set {
-                _date = value;
+                _date = DateTime.Parse(value);
                 NotifyPropertyChanged();
             }
         }
 
-        public string Request
+        public RequestType Request
         { 
-            get => _type.ToString();
+            get => _type;
             set {
-                _type = value=="Bulletin"?RequestType.Bulletin:RequestType.Attestation;
+                _type = value;
                 NotifyPropertyChanged();
             }
         }

@@ -63,7 +63,7 @@ namespace ClientSideComponants
                 } else {
                     forms.RemoveAt(Index);
                     this.FindControl<SideBar>("PlatesBar").RemoveAt(Index);
-                    Index = Index >= forms.Count ? forms.Count - 1 : Index - 1;
+                    Index = Index >= forms.Count ? forms.Count - 1 : Index ;
                 }
             } else {
                 await  MessageBox.Show(holder, "Cannot delete anymore requests" , "Error", MessageBox.MessageBoxButtons.Ok);
@@ -79,10 +79,8 @@ namespace ClientSideComponants
 
         }
 
-        public async void navigateTo(int newIdx) {
-            if(newIdx >= forms.Count || newIdx < 0){
-                await  MessageBox.Show(holder, "There is no requests to delete" , "Error", MessageBox.MessageBoxButtons.Ok);
-            }else{
+        public void navigateTo(int newIdx) {
+            if(!(newIdx >= forms.Count || newIdx < 0)){
                 Index = newIdx;
                 var FormBoard  = this.FindControl<ClientSideComponants.Form>("Board");
                 FormBoard.Model = forms[Index];
@@ -139,5 +137,11 @@ namespace ClientSideComponants
             if(result is not null)
                 OpenForms(result[0]);
         }
+
+        private void LogInBtn_Click(object sender, RoutedEventArgs args){
+            EmailLoginPrompt test = new EmailLoginPrompt();
+            test.Show();
+        }
+        
     }
 }

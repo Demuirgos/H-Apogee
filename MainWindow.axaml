@@ -6,7 +6,7 @@
         x:Class="ApogeeClient.MainWindow"
         xmlns:views="clr-namespace:ClientSideComponants"
         Title="ApogeeClient"
-        Height="500" Width="800" CanResize="False">
+        Height="550" Width="800" CanResize="False">
     <Grid>
         <views:RequestsView HorizontalAlignment="Left"
                 VerticalAlignment="Top"/>
