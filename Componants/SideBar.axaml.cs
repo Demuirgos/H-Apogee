@@ -55,5 +55,9 @@ namespace ClientSideComponants
             get => this.FindControl<ListBox>("SideBarView").SelectedIndex;
             set => this.FindControl<ListBox>("SideBarView").SelectedIndex = value;
         } 
+
+        public void setEmails(List<MessageModel> mails) {
+            this.FindControl<ListBox>("Notifications").Items = from mail in mails select new EmailContentView(mail);
+        }
     }
 }

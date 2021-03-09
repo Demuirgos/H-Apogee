@@ -16,7 +16,6 @@ namespace ApogeeClient
             public byte[] Content { get; set; }
         }
         public string Subject;
-        public string Body;
         public List<Attachment> Attachments;
     }
 }

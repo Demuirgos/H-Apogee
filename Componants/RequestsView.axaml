@@ -21,20 +21,17 @@
                 <Separator/>
                 <MenuItem Header="_Clear..." Tapped="ClrBtn_Click"/>
             </MenuItem>
-            <MenuItem Name="LogoutMenu" Header="_Email">
-                <MenuItem Name="InboxBtn" Header="Inbox"/>
-                <MenuItem Name="PendingBtn" Header="Pending"/>
-                <MenuItem Name="LogOutBtn" Header="Log out"/>
+            <MenuItem Name="LogoutMenu" Header="_Email" IsVisible="False">
+                <MenuItem Name="LogOutBtn" Header="Log out" Tapped="LogOutBtn_Click"/>
             </MenuItem>
-            <MenuItem Name="LoginMenu" Header="_Email">
+            <MenuItem Name="LoginMenu" Header="_Email" IsVisible="True">
                 <MenuItem Name="LogInBtn" Header="Log in" Tapped="LogInBtn_Click"/>
             </MenuItem>
       </Menu>
       <StackPanel Orientation="Horizontal" Margin="0,5">
             <views:SideBar Name="PlatesBar"
                            HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           />
+                           VerticalAlignment="Top" />
             <views:Form Name="Board"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom" 

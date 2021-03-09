@@ -9,6 +9,6 @@
         Height="550" Width="800" CanResize="False">
     <Grid>
         <views:RequestsView HorizontalAlignment="Left"
-                VerticalAlignment="Top"/>
+                            VerticalAlignment="Top"/>
     </Grid>
 </Window>

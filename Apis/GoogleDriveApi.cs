@@ -30,8 +30,6 @@ namespace ApogeeClient
             using (var stream =
                 new FileStream("credentials.json", FileMode.Open, FileAccess.Read))
             {
-                // The file token.json stores the user's access and refresh tokens, and is created
-                // automatically when the authorization flow completes for the first time.
                 string credPath = "token.json";
                 credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.Load(stream).Secrets,
@@ -52,7 +50,6 @@ namespace ApogeeClient
 
         public static async Task<String>  Upload(DriveService service, string _uploadFile, string _parent = "", string _descrp = "Uploaded with .NET!")  
         {
-            // Create the service using the client credentials.
             var fileMetadata = new Google.Apis.Drive.v3.Data.File()
             {
                 Name = _uploadFile
@@ -79,5 +76,3 @@ namespace ApogeeClient
         
     } 
 }
-
-//"ApiCode":"AIzaSyDf6r84Nxbj5Fb0FowPqr9pfCEpKXpa_8k"

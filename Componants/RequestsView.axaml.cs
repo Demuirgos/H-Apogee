@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 
+using System.Timers;
+
 using ApogeeClient;
 
 using System.ComponentModel;
@@ -26,7 +28,23 @@ namespace ClientSideComponants
     public class RequestsView : UserControl
     {
         ObservableCollection<FormData> forms = new ObservableCollection<FormData>();
+        
+        Timer _ticker;
+        Timer Ticker {
+            get {
+                if(_ticker is null){
+                    _ticker = new Timer(2000);
+                    //_ticker.Elapsed += OnTimedEvent;
+                }
+                return _ticker;
+            }
+        }
+
+        UserEmail _user;
+        EmailLoginPrompt prompt;
+
         Window holder => (Avalonia.Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)?desktop.MainWindow:null;
+        
         int Index {
             get => this.FindControl<SideBar>("PlatesBar").Index;
             set {
@@ -34,6 +52,15 @@ namespace ClientSideComponants
                 navigateTo(this.FindControl<SideBar>("PlatesBar").Index);
             }
         }
+
+        bool _isLoggedin = false;
+        bool IsLoggedIn {
+            get => _isLoggedin;
+            set {
+                _isLoggedin = value;
+                SwitchLoggedMode();
+            }
+        } 
 
         public RequestsView()
         {
@@ -138,10 +165,43 @@ namespace ClientSideComponants
                 OpenForms(result[0]);
         }
 
+        private void SwitchLoggedMode(){
+            if(IsLoggedIn){
+                this.FindControl<MenuItem>("LogoutMenu").IsVisible = true;
+                this.FindControl<MenuItem>("LoginMenu").IsVisible = false;
+            } else {
+                this.FindControl<MenuItem>("LogoutMenu").IsVisible = false;
+                this.FindControl<MenuItem>("LoginMenu").IsVisible = true;
+            }
+        }
+
         private void LogInBtn_Click(object sender, RoutedEventArgs args){
-            EmailLoginPrompt test = new EmailLoginPrompt();
-            test.Show();
+            prompt = new EmailLoginPrompt();
+            prompt.PropertyChanged += (object src,PropertyChangedEventArgs arg) => {
+                IsLoggedIn = (src as EmailLoginPrompt).LogState switch {
+                                EmailLoginPrompt.State.LoggedIn => true,
+                                EmailLoginPrompt.State.LoggedOut=> false
+                            };
+                _user = (src as EmailLoginPrompt).Model;
+                OnTimedEvent();
+            };
+            prompt.Show();
         }
         
+        private void LogOutBtn_Click(object sender, RoutedEventArgs args){
+            IsLoggedIn = false;
+            _user = null;
+        }
+
+        private async void OnTimedEvent()
+        {
+            if(IsLoggedIn && _user is not null){
+                var mails = EmailApi.FetchEmails(_user);
+                this.FindControl<SideBar>("PlatesBar").setEmails(
+                    mails
+                );
+                await  MessageBox.Show(holder, mails.Count.ToString(), "Error", MessageBox.MessageBoxButtons.Ok);
+            }
+        }
     }
 }

@@ -5,5 +5,10 @@
              xmlns:plate="clr-namespace:ClientSideComponants"
              x:Class="ClientSideComponants.SideBar"
             Width="200" Height="550">
-  <ListBox Name="SideBarView"/>
+            <StackPanel>
+                <Expander Header="Notifications" Width="200">
+                  <ListBox Name="EmailNotifs"/>
+                </Expander>
+                <ListBox Name="SideBarView"/>
+            </StackPanel>
 </UserControl>
