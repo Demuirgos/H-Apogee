@@ -1,0 +1,21 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ClientSideComponants.EmailLoginPrompt"
+             Width="250" Height="340"  CanResize="False">
+             <StackPanel Margin="10,2">
+                <Image Width="150" Height="150" Source="/Assets/shadow.png" Stretch="Fill"/>
+                <TextBlock  Text="Email : " Margin="10"/>
+                <TextBox  Name="EmailBox"
+                          Width = "200"/>
+                <TextBlock Text="Password : " Margin="10"/>
+                <TextBox  Name="PasswordBox"
+                          PasswordChar="*" 
+                          Width = "200"/>
+                <Button Width="200" Margin="15" Click="LogInButton_Click">
+                  <TextBlock Text="LogIn" />
+                </Button>
+             </StackPanel>
+</UserControl>

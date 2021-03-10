@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:views="clr-namespace:ClientSideComponants"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="ClientSideComponants.RequestsView">
+  <StackPanel>
+    <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Tapped="OpnBtn_Click"/>
+                <Separator/>
+                <MenuItem Header="_Save..." Tapped="SavBtn_Click"/>
+                <Separator/>
+                <MenuItem Header="_Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Add..." Tapped="AddBtn_Click"/>
+                <Separator/>
+                <MenuItem Header="_Remove..." Tapped="RemBtn_Click"/>
+                <Separator/>
+                <MenuItem Header="_Clear..." Tapped="ClrBtn_Click"/>
+            </MenuItem>
+            <MenuItem Name="LogoutMenu" Header="_Email" IsVisible="False">
+                <MenuItem Name="LogOutBtn" Header="Log out" Tapped="LogOutBtn_Click"/>
+            </MenuItem>
+            <MenuItem Name="LoginMenu" Header="_Email" IsVisible="True">
+                <MenuItem Name="LogInBtn" Header="Log in" Tapped="LogInBtn_Click"/>
+            </MenuItem>
+      </Menu>
+      <StackPanel Orientation="Horizontal" Margin="0,5">
+            <views:SideBar Name="PlatesBar"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top" />
+            <views:Form Name="Board"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Bottom" 
+                        Margin="25,-75,0,0"/>
+      </StackPanel>
+  </StackPanel>
+</UserControl>
