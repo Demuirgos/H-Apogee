@@ -62,11 +62,14 @@ namespace ClientSideComponants
                     true => State.LoggedIn,
                     false=> State.LoggedOut
                 };
-                await  MessageBox.Show((Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow, LogState.ToString(), "Error", MessageBox.MessageBoxButtons.Ok);
-                this.Close();
+                await  MessageBox.Show((Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow, LogState.ToString(), "State", MessageBox.MessageBoxButtons.Ok);
             } catch(Exception ex) {
-                await  MessageBox.Show((Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow, ex.Message + ex.StackTrace , "Error", MessageBox.MessageBoxButtons.Ok);
+                await  MessageBox.Show((Avalonia.Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime).MainWindow, "Invalid Email / Password" , "Error", MessageBox.MessageBoxButtons.Ok);
             }
+        }
+
+        public void logOut(){
+            EmailApi.DisconnectEmail();
         }
     }
 }

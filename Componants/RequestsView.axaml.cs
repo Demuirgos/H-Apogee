@@ -2,8 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
-
-using System.Timers;
+using Avalonia.Threading;
 
 using ApogeeClient;
 
@@ -29,12 +28,15 @@ namespace ClientSideComponants
     {
         ObservableCollection<FormData> forms = new ObservableCollection<FormData>();
         
-        Timer _ticker;
-        Timer Ticker {
+        DispatcherTimer _ticker = null;
+        DispatcherTimer Ticker {
             get {
                 if(_ticker is null){
-                    _ticker = new Timer(2000);
-                    //_ticker.Elapsed += OnTimedEvent;
+                    _ticker = new DispatcherTimer(new TimeSpan(0,1,0),
+                    Avalonia.Threading.DispatcherPriority.Normal, 
+                    (sender, e) => { 
+                        fetshEmails();
+                        });
                 }
                 return _ticker;
             }
@@ -169,9 +171,11 @@ namespace ClientSideComponants
             if(IsLoggedIn){
                 this.FindControl<MenuItem>("LogoutMenu").IsVisible = true;
                 this.FindControl<MenuItem>("LoginMenu").IsVisible = false;
+                fetshEmails();
             } else {
                 this.FindControl<MenuItem>("LogoutMenu").IsVisible = false;
                 this.FindControl<MenuItem>("LoginMenu").IsVisible = true;
+                EmptyPan();
             }
         }
 
@@ -183,7 +187,9 @@ namespace ClientSideComponants
                                 EmailLoginPrompt.State.LoggedOut=> false
                             };
                 _user = (src as EmailLoginPrompt).Model;
-                OnTimedEvent();
+                prompt.Close();
+                fetshEmails();
+                Ticker.Start();
             };
             prompt.Show();
         }
@@ -191,17 +197,23 @@ namespace ClientSideComponants
         private void LogOutBtn_Click(object sender, RoutedEventArgs args){
             IsLoggedIn = false;
             _user = null;
+            Ticker.Stop();
         }
 
-        private async void OnTimedEvent()
+        private async void fetshEmails()
         {
             if(IsLoggedIn && _user is not null){
                 var mails = EmailApi.FetchEmails(_user);
                 this.FindControl<SideBar>("PlatesBar").setEmails(
                     mails
                 );
-                await  MessageBox.Show(holder, mails.Count.ToString(), "Error", MessageBox.MessageBoxButtons.Ok);
             }
+        }
+
+        private void EmptyPan(){
+             this.FindControl<SideBar>("PlatesBar").setEmails(
+                    new List<MessageModel>()
+                );
         }
     }
 }

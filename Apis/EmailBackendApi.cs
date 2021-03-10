@@ -5,6 +5,7 @@ using System.Linq;
 using System.Data;
 using System.Net.Http;
 using System.Threading;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -15,40 +16,60 @@ using ApogeeClient;
 
 namespace ApogeeClient
 {
+
     public class EmailApi {
+        private static Pop3Client session = new Pop3Client();
         public static bool ConnectEmail(UserEmail EmailModel){
             var ((host,ssl,port),user,password) = (EmailModel.StmpServer,EmailModel.Email,EmailModel.Password);
-            var client = new Pop3Client();
             try {
-                client.Connect(host,port,ssl);
-                client.Authenticate(user,password);
+                session.Connect(host,port,ssl);
+                session.Authenticate(user,password);
+                return true;
             } catch {
                 return false;
             }
-            return true;
         }
 
+        public static void DisconnectEmail(){
+            session.Dispose();
+            session =  new Pop3Client();
+        }
+
+        public static int EmailCount() {
+            try{
+                return session.GetMessageCount();
+            } catch {
+                return 0;
+            }
+        } 
+
         public static List<MessageModel> FetchEmails(UserEmail EmailModel) {
-            var ((host,ssl,port),user,password) = (EmailModel.StmpServer,EmailModel.Email,EmailModel.Password);
-            using (var client = new Pop3Client()){
-                client.Connect(host,port,ssl);
-                client.Authenticate(user,password);
-                var Messages =  from message in from i in Enumerable.Range(1,client.GetMessageCount()) 
-                                                select client.GetMessage(i)
+                var Messages =  from message in from i in Enumerable.Range(1,session.GetMessageCount()) 
+                                                select session.GetMessage(i)
                                 let subject  = message.Headers.Subject.Trim()
-                                where subject.StartsWith("[AdminReply]") 
+                                where subject.StartsWith("[AdminAccept]") || subject.StartsWith("[AdminRefus]")
                                 select new MessageModel {
-                                    Subject = subject.Substring(11),
+                                    Subject = subject.Substring(13),
                                     Attachments =  (from attachment in message.FindAllAttachments()
                                                     select new MessageModel.Attachment {
                                                         FileName = attachment.FileName,
                                                         ContentType = attachment.ContentType.MediaType,
                                                         Content = attachment.Body
-                                                    }).ToList()
+                                                    }).ToList(),
+                                    State = subject.StartsWith("[AdminAccept]")
                                 };
                 return Messages.ToList();
-            }
         }
 
+        public static void DownloadInto(MessageModel mail, string path){
+            List<MessageModel.Attachment> attachments = mail.Attachments;
+            MessageModel.Attachment attachment = attachments[0];
+            using (var stream = new BinaryWriter(File.Open(path, FileMode.Create)))
+            {
+                stream.Write(attachment.Content);
+            }
+            System.Diagnostics.Process.Start(path);
+
+        }
     }
 }

@@ -57,7 +57,8 @@ namespace ClientSideComponants
         } 
 
         public void setEmails(List<MessageModel> mails) {
-            this.FindControl<ListBox>("Notifications").Items = from mail in mails select new EmailContentView(mail);
+            var notifBox  = this.FindControl<ListBox>("EmailNotifs");
+            notifBox.Items = from mail in mails select new EmailContentView(mail);
         }
     }
 }

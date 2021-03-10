@@ -13,7 +13,6 @@ namespace ApogeeClient
     public class UserEmail : NotifierClass
     {
         string _email = "";
-        string _password = "";
         public string Email
         {
             get => _email;

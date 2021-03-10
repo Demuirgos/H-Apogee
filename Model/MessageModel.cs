@@ -17,5 +17,6 @@ namespace ApogeeClient
         }
         public string Subject;
         public List<Attachment> Attachments;
+        public bool State {get;set;} = false;
     }
 }
