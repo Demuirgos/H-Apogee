@@ -10,31 +10,21 @@ import utils.Either
 
 class RequestsModel: Controller() {
     val requests = mutableListOf<Request>()
-    val treatedRequests = mutableListOf<Request>()
+    val treatedRequests = mutableListOf<TreatedRequest>()
 
     fun loadRequests() {
         requests.clear()
         requests.addAll(GoogleApiDriver.checkFiles())
+    }
 
+    fun load() {
+        requests.clear()
+        requests.addAll(GoogleApiDriver.checkFiles())
     }
 
     fun loadTreatedReqs() {
         treatedRequests.clear()
-        treatedRequests.addAll(transaction {
-            return@transaction DatabaseApi.Requests.selectAll().map {
-                Request.fromJson(
-                    it[Expression.build { DatabaseApi.Requests.fichierReq }],
-                    it[Expression.build { DatabaseApi.Requests.idRequest }]
-                )
-            }.map {
-                when (it) {
-                    is Either.Right -> it.value!!
-                    else -> Request.empty()
-                }
-            }.filter {
-                it != Request.empty()
-            }
-        })
+        treatedRequests.addAll(DatabaseApi.getReqs())
     }
 }
 

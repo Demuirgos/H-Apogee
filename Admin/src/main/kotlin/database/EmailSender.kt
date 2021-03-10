@@ -1,6 +1,8 @@
 package database
 
 import java.io.File
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.activation.DataHandler
 import javax.activation.FileDataSource
 import javax.mail.*
@@ -16,7 +18,7 @@ object EmailSender {
     private const val username = "project.gl.emailSender@gmail.com"
     private const val password = "Genie12345"
 
-    fun sendFile (sendTo: String, msg: String, file: File?) {
+    fun sendFile (sendTo: String, sujet: String, msg: String, file: File?) {
         props["mail.smtp.host"] = smtpServer
         props["mail.smtp.auth"] = "true"
         props["mail.smtp.starttls.enable"] = "true"
@@ -51,7 +53,7 @@ object EmailSender {
                 InternetAddress.parse(sendTo)
             )
 
-            message.subject = "[AdminReply] Requête"
+            message.subject = "$sujet : ${LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))}"
 
             message.setContent(multipart)
 

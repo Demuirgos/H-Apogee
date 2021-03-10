@@ -1,13 +1,20 @@
 package database
 
 import adminSide.Request
-import database.DatabaseApi.Documents.idDoc
+import adminSide.TreatedRequest
+import database.DatabaseApi.Admins.adminId
+import database.DatabaseApi.Requests.etatRequest
+import database.DatabaseApi.Requests.fichierReq
+import database.DatabaseApi.Requests.idRequest
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.jodatime.date
-import org.jetbrains.exposed.sql.statements.api.ExposedBlob
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.joda.time.DateTime
+import utils.Either
+import utils.SHA256.encrypt
 import java.io.File
+import java.io.FileOutputStream
+import kotlin.random.Random.Default.nextDouble
 
 
 object DatabaseApi {
@@ -19,10 +26,19 @@ object DatabaseApi {
             user = "silverest", password = ""
         )
 
+    val adminDB =
+        Database.connect(
+            "jdbc:mysql://localhost:3306/AdminDB",
+            driver= "com.mysql.cj.jdbc.Driver",
+            user = "silverest", password = ""
+        )
+
     object Admins : Table() {
-        val adminId: Column<Int> = integer("id_admin").uniqueIndex()
+        val adminId: Column<String> = varchar("id_admin",64).uniqueIndex()
         val account: Column<String> = varchar("account", 50)
         val password: Column<String> = varchar("password", 64)
+        val email: Column<String> = varchar("email",256)
+        val seed: Column<String> = varchar("seed", 64)
     }
 
     object Students: Table() {
@@ -60,87 +76,50 @@ object DatabaseApi {
 
     fun sendRequestAccepted (req: Request, msg: String) {
         FileGenerator.createFile(req.docType, req.id)
-        EmailSender.sendFile(req.email, "Votre document est joint ci-dessous.", File("files/temp/temp.pdf"))
+        EmailSender.sendFile(req.email, "[AdminAccept] ${req.docType}", "Votre document est joint ci-dessous.",File("files/temp/temp.pdf"))
         File("files/temp").deleteRecursively()
         req.addToDB(true)
     }
 
     fun sendRequestRefused (req: Request, msg: String) {
-        EmailSender.sendFile(req.email, "Votre demande de document a été refuser.\nRaison : $msg", null)
+        EmailSender.sendFile(req.email, "[AdminRefuse] ${req.docType}","Votre demande de document a été refuser.\nRaison : $msg", null)
         req.addToDB(false)
     }
 
-}
-
-fun main() {
-    DatabaseApi.connectDB()
-    /*transaction {
-        //SchemaUtils.drop(DatabaseApi.Students)
-        //SchemaUtils.create(DatabaseApi.Studen
-        ts)
-        DatabaseApi.Students.insert {
-            it[studentId] = 123456789
-            it[firstName] = "Ayman"
-            it[lastName] = "Bouchareb"
-            it[niveau] = "GI2"
-            it[CIN] = "LF57626"
-            it[cne] = "P1360778773"
-            it[email] = "Ayman.Bouchareb@etu.uae.ac.ma"
-            it[annee] = DateTime("1999-07-23")
-            it[ville] = "Tetouan"
+    fun getReqs() = transaction {
+        val xs = Requests.selectAll()
+        return@transaction xs.map {
+            val f = Request.fromJson(
+                it[Expression.build { fichierReq }],
+                it[Expression.build { idRequest }]
+            )
+            TreatedRequest.fromRequest(
+                when (f) {
+                    is Either.Right -> f.value!!
+                    else -> Request.empty()
+                }, it[Expression.build { etatRequest }]
+            )
         }
-    }*/
+    }
 
-    /*transaction {
-        SchemaUtils.drop(DatabaseApi.Modules)
-        SchemaUtils.create(DatabaseApi.Modules)
-        File("files/module1").listFiles().zip(IntRange(1,6)).forEach {x ->
-            DatabaseApi.Modules.insert {
-                it[idModule] = "GI2S3${x.second}"
-                it[nomModule] = x.first.nameWithoutExtension
-                it[fichierNotes] = x.first.readText()
-                it[semestre] = 1
-                it[niveau] = "GI2"
-            }
+    fun delReq(reqId: String) = transaction {
+        Requests.deleteWhere {
+            idRequest eq reqId
         }
+    }
 
-        File("files/module2").listFiles().zip(IntRange(1,6)).forEach {x ->
-            DatabaseApi.Modules.insert {
-                it[idModule] = "GI2S4${x.second}"
-                it[nomModule] = x.first.nameWithoutExtension
-                it[fichierNotes] = x.first.readText()
-                it[semestre] = 2
-                it[niveau] = "GI2"
-            }
+    fun exportReq(path: String) {
+        FileOutputStream("$path/dataRequetes.csv")
+            .write(getReqs().joinToString("\n") { it.toCsv() }.toByteArray())
+   }
+
+    fun modAdminPwd(pwredo: String) {
+        transaction (adminDB) {
+            Admins.update ({
+                adminId eq LogSession.getKey()
+            }) { it[password] = pwredo.encrypt()}
         }
-    }*/
+    }
 
-    /*transaction {
-        DatabaseApi.Documents.deleteWhere { idDoc eq 0 }
-        DatabaseApi.Documents.deleteWhere { idDoc eq 2 }
-        DatabaseApi.Documents.deleteWhere { idDoc eq 1 }
-
-        DatabaseApi.Documents.insert {
-            it[idDoc] = 0
-            it[nomDoc] = "Attestation de stage"
-            it[modelDoc] = File("files/ReleveDeNote/ReleveDeNote.tex").readText()
-        }
-
-        DatabaseApi.Documents.insert {
-            it[idDoc] = 1
-            it[nomDoc] = "Attestation de stage"
-            it[modelDoc] = File("files/AttestationDeScolarite/AttestationDeScolarite.tex").readText()
-        }
-
-        DatabaseApi.Documents.insert {
-            it[idDoc] = 2
-            it[nomDoc] = "Attestation de stage"
-            it[modelDoc] = File("files/AttestationDeStage/AttestationDeStage.tex").readText()
-        }
-    }*/
-
-    /*transaction {
-        SchemaUtils.create(DatabaseApi.Requests)
-    }*/
 }
 

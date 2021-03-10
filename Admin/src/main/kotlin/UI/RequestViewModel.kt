@@ -30,13 +30,25 @@ class RequestViewModel : ItemViewModel<Request>() {
         runAsync {
             updateMessage("Chargement de requetes")
             requestModel.loadRequests()
-            item = if(requestModel.requests.isEmpty()) Request.empty() else requestModel.requests[0]
-        } ui {
-            requests.set(requestModel.requests.toObservable())
+            item = if (requestModel.requests.isEmpty()) Request.empty() else requestModel.requests[0]
+            ui {
+                requests.set(requestModel.requests.distinctBy { it.requestId }.toObservable())
+            }
         }
     }
 
     fun load(list: List<Request>) {
         requests.set(list.toObservable())
+    }
+
+    fun newLoad() {
+        runAsync {
+            updateMessage("Chargement de requetes")
+            requestModel.load()
+            item = if(requestModel.requests.isEmpty()) Request.empty() else requestModel.requests[0]
+        } ui {
+            requests.set(requestModel.requests.distinctBy { it.requestId }.toObservable())
+        }
+
     }
 }

@@ -59,13 +59,14 @@ object GoogleApiDriver {
         return outputStream.toString()
     }
 
-    fun checkFiles(): List<Request> {
+    private fun fetchFiles() =
+        service.files().list()
+        .setPageSize(25)
+        .setFields("nextPageToken, files(id, name)")
+        .execute()
 
-        val result = service.files().list()
-            .setPageSize(9)
-            .setFields("nextPageToken, files(id, name)")
-            .execute()
-        val files: List<com.google.api.services.drive.model.File> = result.files.filter{ file -> file.name.endsWith(".json") }.distinctBy { it.name }
+    fun checkFiles(): List<Request> {
+        val files = fetchFiles().files.filter{ file -> file.name.endsWith(".json") }.distinctBy { it.name }
         return if (files.isEmpty()) {
             println("No files found.")
             emptyList()
@@ -74,7 +75,15 @@ object GoogleApiDriver {
         }
     }
 
-
+    fun reloadFiles(fileIds: List<String>): List<Request> {
+        val files = fetchFiles().files.filter{ !fileIds.contains(it.id) && it.name.endsWith(".json")}
+        return if (files.isEmpty()) {
+            println("No files found.")
+            emptyList()
+        } else {
+            files.map{ downloadFileToReq(it.id) }.filter {it.requestId != ""}
+        }
+    }
 
     fun deleteFile(fileId: String) {
         service.files().delete(fileId).executeUnparsed()

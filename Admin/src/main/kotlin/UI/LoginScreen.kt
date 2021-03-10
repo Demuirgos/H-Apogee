@@ -1,12 +1,13 @@
 package UI
 
+import database.LoginController
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Pos
 import javafx.scene.image.Image
 import tornadofx.*
 import java.io.FileInputStream
 
-class LoginScreen : View("Login") {
+class LoginScreen : View("login") {
     private val model = ViewModel()
 
     private val username = model.bind {SimpleStringProperty()}
@@ -51,8 +52,8 @@ class LoginScreen : View("Login") {
             }
 
             vbox {
-                button ("Mot de passe oublier") {
-
+                button ("Mot de passe oublier").action {
+                    find(PasswordForgottenView::class).openWindow()
                 }
                 paddingLeft = 10.0
             }

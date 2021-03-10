@@ -28,7 +28,9 @@ class RequestListFragment : Fragment() {
             }
         }
 
-        listview<Request> {
+
+
+        listview(requestViewModel.requests){
             itemsProperty().bind(requestViewModel.requests)
 
             cellFormat {
@@ -85,7 +87,15 @@ class RequestListFragment : Fragment() {
         }
     }
 
+    fun remove(rId: String) {
+        requestViewModel.load(requestViewModel.requests.value.filter { it.requestId != rId })
+    }
+
     fun reload() {
         requestViewModel.reload()
+    }
+
+    fun load() {
+        requestViewModel.newLoad()
     }
 }
