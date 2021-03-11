@@ -1,0 +1,91 @@
+\documentclass[a4paper]{article}
+
+\usepackage[french]{babel}
+\usepackage{fancyhdr, graphicx}
+\usepackage[a4paper]{geometry}
+\usepackage{fontawesome}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{cfr-lm}
+\usepackage{array,booktabs,arydshln,xcolor}
+\newcommand\VRule{\vrule height 12px}
+\geometry{
+    paper=a4paper,
+    top=4cm,
+    bottom=3cm,
+    left=2.5cm,
+    right=2.5cm,
+    headheight=80pt,
+    footskip=1.5cm
+}
+
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{\includegraphics[width=2cm]{../Logos/logoUAE.png}} 
+\fancyhead[R]{\includegraphics[width=2cm]{../Logos/logoEnsa.png}}
+
+\begin{document}
+\thispagestyle{fancy}
+\begin{center}
+    \setlength{\fboxsep}{10pt}\framebox{{\Huge\uppercase{Releve de notes et resultats}}}
+\end{center}
+\vspace{0.8em}
+\noindent\textbf{\uppercase{nomArg} prenomArg}
+\vspace{0.5em}\\
+\begin{minipage}{0.35\textwidth}
+N$^\circ$ Etudiant: numEtuArg
+\vspace{0.3em}\\
+N\'e le: dateNaissArg 
+\end{minipage}
+\hspace{0.5em}
+\begin{minipage}{0.3\textwidth}
+CNE\@: cneArg
+\vspace{0.3em}\\
+\`a: \uppercase{villeArg}
+\end{minipage}
+\vspace{0.5em}\\
+inscrit en: \textbf{anneeEducArg}
+\vspace{0.2em}\\
+a obtenu les notes suivantes:
+
+\begin{table}[h!]
+    \setlength{\tabcolsep}{13pt} 
+    \renewcommand{\arraystretch}{1.2}
+    \begin{center}
+        \begin{tabular}{!{\VRule}l c c c r!{\vrule}}
+            \toprule
+             & Note/Bar\`eme & R\'esultat & Session & Pts jury\\
+            \midrule
+            module1Arg & note1Arg/20 & resultatSta1Arg & sessionArg & ptsJury1Arg\\
+            \midrule
+            module2Arg & note2Arg/20 & resultatSta2Arg & sessionArg & ptsJury2Arg\\
+            \midrule
+            module3Arg & note3Arg/20 & resultatSta3Arg & sessionArg & ptsJury3Arg\\
+            \midrule
+            module4Arg & note4Arg/20 & resultatSta4Arg & sessionArg & ptsJury4Arg\\
+            \midrule
+            module5Arg & note5Arg/20 & resultatSta5Arg & sessionArg & ptsJury5Arg\\
+            \midrule
+            module6Arg & note6Arg/20 & resultatSta6Arg & sessionArg & ptsJury6Arg\\
+            \midrule
+            module7Arg & note7Arg/20 & resultatSta7Arg & sessionArg & ptsJury7Arg\\
+            \midrule
+            module8Arg & note8Arg/20 & resultatSta8Arg & sessionArg & ptsJury8Arg\\
+            \midrule
+            module9Arg & note9Arg/20 & resultatSta9Arg & sessionArg & ptsJury9Arg\\
+            \midrule
+            module10Arg & note10Arg/20 & resultatSta10Arg & sessionArg & ptsJury10Arg\\
+            \midrule
+            module11Arg & note11Arg/20 & resultatSta11Arg & sessionArg & ptsJury11Arg\\
+            \midrule
+            module12Arg & note12Arg/20 & resultatSta12Arg & sessionArg & ptsJury12Arg\\
+            \bottomrule
+        \end{tabular} 
+    \end{center}
+\end{table}
+\vspace{-15px}
+\hspace{1.7em}\textbf{R\'esultat d'admission session 1:} \hspace{10px} \textbf{noteFinArg/20}
+
+\vspace*{\fill}
+\hspace{4em}Fait, le \today
+\end{document}
