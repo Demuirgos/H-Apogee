@@ -74,16 +74,12 @@ class RequestListFragment : Fragment() {
         alert(Alert.AlertType.CONFIRMATION, "Voulez-vous supprimer cette requete?") {
             val id =
                 requestViewModel.selectedReq.value.requestId
-            runBlocking {
+            runAsync {
                 GoogleApiDriver.deleteFile(id)
+                ui {
+                    requestViewModel.reload()
+                }
             }
-
-            runBlocking {
-                requestViewModel.load(
-                    requestViewModel.requests.value.filter { it.requestId != id }
-                )
-            }
-
         }
     }
 
