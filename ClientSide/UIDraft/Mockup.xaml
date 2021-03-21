@@ -1,0 +1,70 @@
+<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    RequestedTheme="Dark">
+
+    <StackPanel Padding="40" Background="Black">
+        <MenuBar VerticalAlignment="Top" Background="Gray">
+            <MenuBarItem Title="Files"/>
+            <MenuBarItem Title="Edit"/>
+            <MenuBarItem Title="Tools"/>
+            <MenuBarItem Title="Help"/>
+        </MenuBar>
+        <StackPanel Orientation="Horizontal">
+            <ListView>
+                <ListViewItem Margin="0,5"> 
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Width="100" Height="100" Fill="Gray"/>
+                        <StackPanel Margin="5,0,0,0">
+                            <TextBlock Text="Full Name"/>
+                            <TextBlock Text="23/25/2021"/>
+                            <TextBlock Text="Relevé de Notes"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="0,5"> 
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Width="100" Height="100" Fill="Gray"/>
+                        <StackPanel Margin="5,0,0,0">
+                            <TextBlock Text="John Doe"/>
+                            <TextBlock Text="23/02/2021"/>
+                            <TextBlock Text="Attestation"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Margin="0,5"> 
+                    <StackPanel Orientation="Horizontal">
+                        <Rectangle Width="100" Height="100" Fill="Gray"/>
+                        <StackPanel Margin="5,0,0,0">
+                            <TextBlock Text="Full Name 3"/>
+                            <TextBlock Text="23/02/2021"/>
+                            <TextBlock Text="Demande"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+            <StackPanel Margin="15">
+                <TextBlock Text="First Name : " Width="100" Height="45"/>
+                <TextBlock Text="Last Name  : " Width="100" Height="45"/>
+                <TextBlock Text="Email      : " Width="100" Height="45"/>
+                <TextBlock Text="ID         : " Width="100" Height="45"/>
+                <TextBlock Text="Cin        : " Width="100" Height="45"/>
+                <TextBlock Text="Date       : " Width="100" Height="45"/>
+                <TextBlock Text="Request    : " Width="100" Height="45"/>
+            </StackPanel>
+            <StackPanel Margin="15">
+                <TextBox Text="John" Width="250" Height="45"/>
+                <TextBox Text="Doe" Width="250" Height="45"/>
+                <TextBox Text="Generic@mail.xyz" Width="250" Height="45"/>
+                <TextBox Text="ABC2342069" Width="250" Height="45"/>
+                <TextBox Text="LF2369" Width="250" Height="45"/>
+                <CalendarDatePicker Width="250"/>
+                <TextBox Text="Attestation" Width="250" Height="45"/>
+                
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</Page>
